@@ -2,8 +2,6 @@
 
 # mpv shell completion script generator
 # This is a hack. Oh noes!
-# Copyright (C) 2014 Jens Oliver John <dev at 2ion dot de>
-# Licensed under the GNU General Public License v3 or later
 
 set -f
 set -e
@@ -22,7 +20,7 @@ readonly _f_footer='
 complete -F _mpv mpv'
 
 readonly _case='
-%s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
+    %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
 
 declare -a _allkeys
 
