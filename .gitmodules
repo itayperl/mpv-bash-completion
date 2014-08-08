@@ -1,0 +1,6 @@
+[submodule "Penlight"]
+	path = Penlight
+	url = https://github.com/stevedonovan/Penlight.git
+[submodule "lua-pkgpath"]
+	path = lua-pkgpath
+	url = git@github.com:2ion/lua-pkgpath.git
