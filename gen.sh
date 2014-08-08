@@ -22,13 +22,13 @@ readonly _f_footer='
 complete -F _mpv mpv'
 
 readonly _case='
-  %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
+%s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
 
 declare -a _allkeys
 
 ####################################################
 
-echo "$_f_header"
+echo -n "$_f_header"
 
 for line in $(mpv --list-options \
   | grep -- -- \
