@@ -41,20 +41,23 @@ done
 
 readonly _f_header='#!/bin/bash
 # Bash completion file for the mpv media player 
-# Project homepage: https://github.com/mpv-player/mpv
+
+_mpv_escape(){
+  echo "$1" | sed "s/\\([^[:alnum:]^/]\\)/\\\\\\1/g"
+}
 
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
   if [[ ! $cur =~ ^- ]] ; then
-    __COMPREPLY=($(compgen -f -- "$cur")) 
+    __COMPREPLY=($(compgen -o default -- "$cur")) 
     COMPREPLY=()
     for p in "${__COMPREPLY[@]}" ; do
       if [[ -d "$p" ]] ; then
         p=${p%/}
-        COMPREPLY=("${COMPREPLY[@]}" "$p/")
+        COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p/")")
       else
-        COMPREPLY=("${COMPREPLY[@]}" "$p")
+        COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
       fi
     done
     return 0
