@@ -19,5 +19,5 @@ deb: $(MYCOMP)
 		--pkgrelease 1 \
 		--nodoc \
 		--install \
-	 	make -f Makefile.install install 
+	 	make -f Makefile.checkinstall install 
 		rm -f ./mpv
