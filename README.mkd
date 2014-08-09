@@ -1,7 +1,7 @@
 ## mpv-bash-completion
 
-This repositorty provides a script for generating a Bash completion
-script for the popular [mpv media player](https://github.com/mpv-player/mpv).
+This repository provides a script for generating a Bash completion
+script for the popular [mpv video player](https://github.com/mpv-player/mpv).
 It provides option, option argument and file name completion.
 
 It does so by parsing the output of
