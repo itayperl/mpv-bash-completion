@@ -1,0 +1,5 @@
+- faster escaping by reducing the regex scope. punct and space should
+  suffice (?)
+- improve performance by keeping a cache of compgen() results for the
+  last N $cur words. As people double tab quite often, this alone should
+  boost performance quite significantly
