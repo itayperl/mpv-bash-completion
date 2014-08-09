@@ -12,6 +12,10 @@ readonly _f_header='
 function _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
+  if [[ ! $cur =~ ^- ]] ; then
+    COMPREPLY=($(compgen -o default -o bashdefault -o filenames -- "$cur"))
+    return 0
+  fi
   case "$prev" in'
 
 readonly _f_footer='
