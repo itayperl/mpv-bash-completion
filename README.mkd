@@ -14,6 +14,16 @@ current script has been tested against mpv 0.4.1-git-ef41a98 only.
 
 Included is support for generating a Debian package.
 
+### Out-of-Tree downloads
+
+* Completion script (tested against 0.4.1-git-ef41a98)
+  [here](https://bitbucket.org/2ion/mpv-bash-completion/downloads/mpv_0.4.1-git-ef41a98.completion.sh.xz)
+* Debian package (version: 0.1-5-gdc44caa-1, tested against 0.4.1-git-ef41a98)
+  [here](https://bitbucket.org/2ion/mpv-bash-completion/downloads/mpv-bash-completion_0.1-5-gdc44caa-1_all.deb)
+
+Let's think for a moment about _how badly Github sucks_. Many thanks to
+Bitbucket for allowing me to host these files!
+
 ### Dependencies
 
 * mpv (must be in $PATH)
