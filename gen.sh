@@ -1,19 +1,53 @@
 #!/bin/bash
 
-# mpv shell completion script generator
-# This is a hack. Oh noes!
+# gen.sh - mpv Bash completion script generator - This is a hack. Oh noes!
+# Copyright (C) 2014 Jens Oliver John <dev at 2ion dot de>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 set -f
-set -e
 
 ####################################################
 
-readonly _f_header='
-function _mpv(){
+if [[ $1 = -h ]] ; then
+  echo "gen.sh - mpv shell completion script generator
+Script version: $VERSION
+Homepage: https://github.com/2ion/mpv-bash-completion
+--
+This program doesn't accept any command line options except for -h.
+Make sure that the mpv command is in \$PATH."
+  exit 0
+fi
+
+for dep in mpv sed grep tail cut ; do
+  if ! type "$dep" &>/dev/null ; then
+    echo "Error: required command $dep not found in PATH. Abort." >&2
+    exit 1
+  fi
+done
+
+####################################################
+
+readonly _f_header='#!/bin/bash
+# Bash completion file for the mpv media player 
+# Project homepage: https://github.com/mpv-player/mpv
+
+_mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
   if [[ ! $cur =~ ^- ]] ; then
-    COMPREPLY=($(compgen -o default -o bashdefault -o filenames -- "$cur"))
+    COMPREPLY=($(compgen -f -- "$cur")) 
     return 0
   fi
   case "$prev" in'
@@ -21,7 +55,7 @@ function _mpv(){
 readonly _f_footer='
   esac
 }
-complete -F _mpv mpv'
+complete -o nospace -F _mpv mpv'
 
 readonly _case='
     %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
