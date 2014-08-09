@@ -47,7 +47,16 @@ _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
   if [[ ! $cur =~ ^- ]] ; then
-    COMPREPLY=($(compgen -f -- "$cur")) 
+    __COMPREPLY=($(compgen -f -- "$cur")) 
+    COMPREPLY=()
+    for p in "${__COMPREPLY[@]}" ; do
+      if [[ -d "$p" ]] ; then
+        p=${p%/}
+        COMPREPLY=("${COMPREPLY[@]}" "$p/")
+      else
+        COMPREPLY=("${COMPREPLY[@]}" "$p")
+      fi
+    done
     return 0
   fi
   case "$prev" in'
