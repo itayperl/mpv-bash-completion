@@ -1,5 +1,6 @@
-INFIX = $(shell mpv --version | head -n1 | cut -d' ' -f2)
-MYCOMP = mpv_$(INFIX).completion.sh
+VERSION = 0.3
+INFIX = $(shell mpv --version | head -n1 | cut -d' ' -f2 | cut -d- -f1)
+MYCOMP = mpv_$(INFIX)-completion_$(VERSION).sh
 
 all: $(MYCOMP)
 
@@ -12,7 +13,7 @@ deb: $(MYCOMP)
 	sudo checkinstall \
 		-D \
 		--pkgname mpv-bash-completion \
-		--pkgversion 0.3 \
+		--pkgversion $(VERSION) \
 		-A all \
 		--pkgsource "https://github.com/2ion/mpv-bash-completion" \
 		--pkglicense GPL-3 \
