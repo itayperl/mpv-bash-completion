@@ -3,8 +3,8 @@ MYCOMP = mpv_$(INFIX).completion.sh
 
 all: $(MYCOMP)
 
-$(MYCOMP):
-	./gen.sh > $@
+$(MYCOMP): gen.sh
+	./$< > $@
 
 .PHONY:deb
 deb: $(MYCOMP)
