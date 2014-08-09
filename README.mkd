@@ -1,0 +1,47 @@
+### mpv-bash-completion
+
+This repositorty provides a script for generating a Bash completion
+script for the popular [mpv media player](https://github.com/mpv-player/mpv).
+It does so by parsing the output of <code>mpv --list-options</code>
+directly. Included is support for generating a Debian package.
+
+### Dependencies
+
+* mpv (must be in $PATH)
+* grep
+* GNU core utilities
+* make
+
+For generating the Debian package:
+
+* checkinstall
+
+### Generate the completion script
+
+Running
+```sh
+make
+```
+will produce a file named <code>mpv\_VERSION.completion.sh</code>.
+Source it in your .bashrc or similar like this:
+```sh
+source /bath/to/the/script
+```
+re-source your .bashrc:
+```sh
+source $HOME/.bashrc
+```
+and you should now have completion for the mpv command.
+
+#### Generate the Debian package
+
+Run
+```sh
+make deb
+```
+and answer to any prompts accordingly. You will also be prompted for the
+sudo password. The Debian package will get installed and also saved to
+the current working directory. To remove it later, run
+```sh
+sudo dpkg -r mpv-bash-completion
+```
