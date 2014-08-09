@@ -39,7 +39,7 @@ Running
 ```sh
 make
 ```
-will produce a file named <code>mpv\_VERSION.completion.sh</code>.
+will produce a shell script in the current working directory.
 Source it in your .bashrc or similar like this:
 ```sh
 source /bath/to/the/script
