@@ -9,8 +9,8 @@ It does so by parsing the output of
 mpv --list-options
 ```
 directly and should thus work against most newer versions of mpv,
-however it still will break even in the case of minor changes. The
-current script has been tested against mpv 0.4.1-git-ef41a98 only.
+however it still will break even in the case of minor changes. Mind the
+bug.
 
 Included is support for generating a Debian package.
 
