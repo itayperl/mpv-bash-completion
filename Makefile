@@ -12,7 +12,7 @@ deb: $(MYCOMP)
 	sudo checkinstall \
 		-D \
 		--pkgname mpv-bash-completion \
-		--pkgversion 0.1-5 \
+		--pkgversion 0.2 \
 		-A all \
 		--pkgsource "https://github.com/2ion/mpv-bash-completion" \
 		--pkglicense GPL-3 \
