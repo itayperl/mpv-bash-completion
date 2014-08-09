@@ -1,4 +1,4 @@
-VERSION = 0.3
+VERSION = 0.4
 INFIX = $(shell mpv --version | head -n1 | cut -d' ' -f2 | cut -d- -f1)
 MYCOMP = mpv_$(INFIX)-completion_$(VERSION).sh
 

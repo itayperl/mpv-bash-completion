@@ -49,7 +49,7 @@ _mpv_escape(){
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
-  if [[ ! $cur =~ ^- ]] ; then
+  if [[ ! $cur =~ ^- && ! $prev =~ ^- ]] ; then
     __COMPREPLY=($(compgen -o default -- "$cur")) 
     COMPREPLY=()
     for p in "${__COMPREPLY[@]}" ; do
