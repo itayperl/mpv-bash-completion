@@ -20,7 +20,7 @@ set -f
 
 ####################################################
 
-if [[ $1 = -h ]] ; then
+if [[ $1 = -h ]] || (( $# != 0 )) ; then
   echo "gen.sh - mpv shell completion script generator
 Script version: $VERSION
 Homepage: https://github.com/2ion/mpv-bash-completion
@@ -58,7 +58,7 @@ readonly _f_footer='
     esac
   fi
   if [[ $cur =~ ^- ]] ; then
-    COMPREPLY=($(compgen -W "%s"))
+    COMPREPLY=($(compgen -W "%s" -- "$cur"))
     return
   fi
   COMPREPLY=()
