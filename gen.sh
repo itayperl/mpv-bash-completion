@@ -51,14 +51,16 @@ _mpv_escape(){
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
+  if [[ -n $prev ]] ; then
+    case "$prev" in'
+
+readonly _f_footer='
+    esac
+  fi
   if [[ $cur =~ ^- ]] ; then
     COMPREPLY=($(compgen -W "%s"))
     return
   fi
-  case "$prev" in'
-
-readonly _f_footer='
-  esac
   COMPREPLY=()
   __COMPREPLY=($(compgen -o default -- "$cur")) 
 
@@ -75,7 +77,7 @@ readonly _f_footer='
 complete -o nospace -F _mpv mpv'
 
 readonly _case='
-    %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
+      %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 
 ####################################################
 
@@ -124,7 +126,7 @@ done
 
 ####################################################
 
-printf "$_f_header" "$_sed_escape_expr" "$_allkeys"
+printf "$_f_header" "$_sed_escape_expr"
 echo "${_prev_cases[@]}"
-echo "$_f_footer"
+printf "$_f_footer" "$_allkeys"
 
