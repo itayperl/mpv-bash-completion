@@ -6,6 +6,7 @@ all: $(MYCOMP)
 
 $(MYCOMP): gen.sh
 	./$< > $@
+	bash -n $@
 
 .PHONY:deb
 deb: $(MYCOMP)
