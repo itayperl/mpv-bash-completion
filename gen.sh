@@ -63,11 +63,10 @@ readonly _f_footer='
   COMPREPLY=()
   for p in "${__COMPREPLY[@]}" ; do
     if [[ -d "$p" ]] ; then
-      p=${p%/}
-      COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p/")")
-    else
-      COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
+      p=${p%%/}
+      p="$p/"
     fi
+    COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
   done
   return
 }
