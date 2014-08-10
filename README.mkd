@@ -19,9 +19,6 @@ Included is support for generating a Debian package.
 Scripts for certain mpv versions and corresponding Debian packages are
 available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
 
-Let's think for a moment about _how badly Github sucks_. Many thanks to
-Bitbucket for allowing me to host these files!
-
 ### Dependencies
 
 * mpv (must be in $PATH)
