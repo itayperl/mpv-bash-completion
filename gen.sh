@@ -51,6 +51,7 @@ _mpv_escape(){
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
+  compopt +o default +o filenames 
   if [[ -n $prev ]] ; then
     case "$prev" in'
 
@@ -61,17 +62,8 @@ readonly _f_footer='
     COMPREPLY=($(compgen -W "%s" -- "$cur"))
     return
   fi
-  COMPREPLY=()
-  __COMPREPLY=($(compgen -o default -- "$cur")) 
-
-  for p in "${__COMPREPLY[@]}" ; do
-    if [[ -d "$p" ]] ; then
-      p=${p%%/}
-      p="$p/"
-    fi
-    COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
-  done
-
+  compopt -o filenames -o default
+  COMPREPLY=($(compgen -- "$cur"))
   return
 }
 complete -o nospace -F _mpv mpv'
