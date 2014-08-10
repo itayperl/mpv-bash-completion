@@ -49,34 +49,37 @@ _mpv_escape(){
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
-  if [[ -z $cur && ! $prev =~ ^- ]] || [[ ! $cur =~ ^- && ! $prev =~ ^- ]] ; then
-    __COMPREPLY=($(compgen -o default -- "$cur")) 
-    COMPREPLY=()
-    for p in "${__COMPREPLY[@]}" ; do
-      if [[ -d "$p" ]] ; then
-        p=${p%/}
-        COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p/")")
-      else
-        COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
-      fi
-    done
-    return 0
+  if [[ $cur =~ ^- ]] ; then
+    COMPREPLY=($(compgen -W "%s"))
+    return
   fi
   case "$prev" in'
 
 readonly _f_footer='
   esac
+  __COMPREPLY=($(compgen -o default -- "$cur")) 
+  COMPREPLY=()
+  for p in "${__COMPREPLY[@]}" ; do
+    if [[ -d "$p" ]] ; then
+      p=${p%/}
+      COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p/")")
+    else
+      COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
+    fi
+  done
+  return
 }
 complete -o nospace -F _mpv mpv'
 
 readonly _case='
-    %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ;;'
-
-declare -a _allkeys
+    %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 
 ####################################################
 
-echo -n "$_f_header"
+declare -a _allkeys
+declare -a _prev_cases=()
+
+####################################################
 
 for line in $(mpv --list-options \
   | grep -- -- \
@@ -93,7 +96,7 @@ for line in $(mpv --list-options \
       tail=${val#*,}
       tail=${tail%%,(*}
       tail=${tail//,/ }
-      printf "$_case" "$key" "$tail"
+      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "$tail")")
       ;;
     Object)
       tail=""
@@ -108,14 +111,16 @@ for line in $(mpv --list-options \
           tail="$tail $subline"
         fi
       done
-      printf "$_case" "$key" "$tail"
+      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "$tail")")
       ;;
     Flag)
-      printf "$_case" "$key" "yes no"
+      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "yes no")")
       ;;
   esac
 done
 
-printf "$_case" "*" "$_allkeys"
+####################################################
 
-echo "$_f_footer"
+printf "$_f_header" "$_allkeys"
+echo "${_prev_cases[@]}"
+
