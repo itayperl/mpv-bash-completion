@@ -39,11 +39,13 @@ done
 
 ####################################################
 
+readonly _sed_escape_expr='"s/\\([^[:alnum:]^/]\\)/\\\\\1/g"'
+
 readonly _f_header='#!/bin/bash
 # Bash completion file for the mpv media player 
 
 _mpv_escape(){
-  echo "$1" | sed "s/\\([^[:alnum:]^/]\\)/\\\\\\1/g"
+  echo "$1" | sed %s
 }
 
 _mpv(){
@@ -121,6 +123,7 @@ done
 
 ####################################################
 
-printf "$_f_header" "$_allkeys"
+printf "$_f_header" "$_sed_escape_expr" "$_allkeys"
 echo "${_prev_cases[@]}"
+echo "$_f_footer"
 
