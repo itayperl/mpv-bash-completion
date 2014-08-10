@@ -44,10 +44,6 @@ readonly _sed_escape_expr='"s/\\([^[:alnum:]^/]\\)/\\\\\1/g"'
 readonly _f_header='#!/bin/bash
 # Bash completion file for the mpv media player 
 
-_mpv_escape(){
-  echo "$1" | sed %s
-}
-
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
