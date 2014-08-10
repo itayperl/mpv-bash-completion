@@ -59,8 +59,9 @@ _mpv(){
 
 readonly _f_footer='
   esac
-  __COMPREPLY=($(compgen -o default -- "$cur")) 
   COMPREPLY=()
+  __COMPREPLY=($(compgen -o default -- "$cur")) 
+
   for p in "${__COMPREPLY[@]}" ; do
     if [[ -d "$p" ]] ; then
       p=${p%%/}
@@ -68,6 +69,7 @@ readonly _f_footer='
     fi
     COMPREPLY=("${COMPREPLY[@]}" "$(_mpv_escape "$p")")
   done
+
   return
 }
 complete -o nospace -F _mpv mpv'
