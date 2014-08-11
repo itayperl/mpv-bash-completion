@@ -39,8 +39,7 @@ done
 
 ####################################################
 
-readonly _sed_escape_expr='"s/\\([^[:alnum:]^/]\\)/\\\\\1/g"'
-
+# File header template. Takes no arguments.
 readonly _f_header='#!/bin/bash
 # Bash completion file for the mpv media player
 
@@ -55,6 +54,7 @@ _mpv(){
   if [[ -n $prev ]] ; then
     case "$prev" in'
 
+# File footer template. Takes 1 argument: List of all --options.
 readonly _f_footer='
     esac
   fi
@@ -72,6 +72,8 @@ readonly _f_footer='
 }
 complete -o nospace -F _mpv mpv'
 
+# Template for --option argument case handling. Takes 2 arguments:
+# --option to complete and argument list.
 readonly _case='
       %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 
@@ -82,6 +84,9 @@ declare -a _prev_cases=()
 
 ####################################################
 
+# Extract possible --options and for options that take a fixed
+# list of options as well as flag-type options taking either 'yes' or 'no',
+# extract the argument lists
 for line in $(mpv --list-options \
   | grep -- -- \
   | sed 's/^\s*//;s/\s\+/,/g;s/,(default.*$//g') ; do
@@ -122,7 +127,8 @@ done
 
 ####################################################
 
-printf "$_f_header" "$_sed_escape_expr"
+# Inject data into templates and print to stdout
+printf "$_f_header"
 echo "${_prev_cases[@]}"
 printf "$_f_footer" "$_allkeys"
 
