@@ -47,28 +47,22 @@ _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
   
-  # Switch off filename completion when generating --option completions
   compopt +o default +o filenames
   
-  # Complete --option arguments
   if [[ -n $prev ]] ; then
     case "$prev" in'
 
 # File footer template. Takes 1 argument: List of all --options.
-readonly _f_footer='
-    esac
+readonly _f_footer='    esac
   fi
   
-  # Complete --options if the current word starts with a dash
   if [[ $cur =~ ^- ]] ; then
     COMPREPLY=($(compgen -W "%s" -- "$cur"))
     return
   fi
   
-  # Complete filenames using readline completion
   compopt -o filenames -o default
   COMPREPLY=($(compgen -- "$cur"))
-  return
 }
 complete -o nospace -F _mpv mpv'
 
