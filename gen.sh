@@ -42,22 +42,30 @@ done
 readonly _sed_escape_expr='"s/\\([^[:alnum:]^/]\\)/\\\\\1/g"'
 
 readonly _f_header='#!/bin/bash
-# Bash completion file for the mpv media player 
+# Bash completion file for the mpv media player
 
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
-  compopt +o default +o filenames 
+  
+  # Switch off filename completion when generating --option completions
+  compopt +o default +o filenames
+  
+  # Complete --option arguments
   if [[ -n $prev ]] ; then
     case "$prev" in'
 
 readonly _f_footer='
     esac
   fi
+  
+  # Complete --options if the current word starts with a dash
   if [[ $cur =~ ^- ]] ; then
     COMPREPLY=($(compgen -W "%s" -- "$cur"))
     return
   fi
+  
+  # Complete filenames using readline completion
   compopt -o filenames -o default
   COMPREPLY=($(compgen -- "$cur"))
   return
