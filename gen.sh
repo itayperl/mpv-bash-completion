@@ -15,20 +15,30 @@
 # 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Project homepage: https://github.com/2ion/mpv-bash-completion
 
 set -f
 
 ####################################################
 
-if [[ $1 = -h ]] || (( $# != 0 )) ; then
-  echo "gen.sh - mpv shell completion script generator
-Script version: $VERSION
-Homepage: https://github.com/2ion/mpv-bash-completion
---
-This program doesn't accept any command line options except for -h.
-Make sure that the mpv command is in \$PATH."
-  exit 0
-fi
+while getopts ":h" opt ; do
+  case "$opt" in
+    h)
+      echo -n "mpv Bash completion script generator
+Usage:
+  ${0##*/} [<options>]
+Options:
+  -h  Print this message and exit
+"
+      exit 0
+      ;;
+    *)
+      echo "Invalid option: $opt -- Abort."
+      exit 1
+      ;;
+  esac
+done
 
 for dep in mpv sed grep tail cut ; do
   if ! type "$dep" &>/dev/null ; then
@@ -116,6 +126,10 @@ for line in $(mpv --list-options \
     Flag)
       _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "yes no")")
       ;;
+    Integer)
+      if [[ $val =~ ([0-9]+),to,([0-9]+) ]] ; then
+        _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
+      fi
   esac
 done
 
