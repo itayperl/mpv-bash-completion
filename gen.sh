@@ -88,6 +88,18 @@ declare -a _prev_cases=()
 
 ####################################################
 
+ensure_float_suffix(){
+  if [[ ! $1 =~ \. ]] ; then
+    echo "${1}.0"
+  else
+    echo "$1"
+  fi
+  return 0
+}
+
+####################################################
+
+
 # Extract possible --options and for options that take a fixed
 # list of options as well as flag-type options taking either 'yes' or 'no',
 # extract the argument lists
@@ -106,7 +118,8 @@ for line in $(mpv --list-options \
       tail=${val#*,}
       tail=${tail%%,(*}
       tail=${tail//,/ }
-      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "$tail")")
+      _prev_cases=("${_prev_cases[@]}" \
+        "$(printf "$_case" "$key" "$tail")")
       ;;
     Object)
       tail=""
@@ -121,15 +134,27 @@ for line in $(mpv --list-options \
           tail="$tail $subline"
         fi
       done
-      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "$tail")")
+      _prev_cases=("${_prev_cases[@]}" \
+        "$(printf "$_case" "$key" "$tail")")
       ;;
     Flag)
-      _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "yes no")")
+      _prev_cases=("${_prev_cases[@]}" \
+        "$(printf "$_case" "$key" "yes no")")
       ;;
     Integer)
       if [[ $val =~ ([\-]?[0-9]+),to,([\-]?[0-9]+) ]] ; then
-        _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
+        _prev_cases=("${_prev_cases[@]}" \
+          "$(printf "$_case" "$key" \
+            "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
       fi
+      ;;
+    Float)
+      if [[ $val =~ ([\-]?[0-9\.]+),to,([\-]?[0-9\.]+) ]] ; then
+        _prev_cases=("${_prev_cases[@]}" \
+          "$(printf "$_case" "$key" \
+            "$(ensure_float_suffix ${BASH_REMATCH[1]}) $(ensure_float_suffix ${BASH_REMATCH[2]})")")
+      fi
+      ;;
   esac
 done
 
