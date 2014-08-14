@@ -127,7 +127,7 @@ for line in $(mpv --list-options \
       _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "yes no")")
       ;;
     Integer)
-      if [[ $val =~ ([0-9]+),to,([0-9]+) ]] ; then
+      if [[ $val =~ ([\-]?[0-9]+),to,([\-]?[0-9]+) ]] ; then
         _prev_cases=("${_prev_cases[@]}" "$(printf "$_case" "$key" "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
       fi
   esac
