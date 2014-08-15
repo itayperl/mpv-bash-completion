@@ -21,6 +21,61 @@
 set -f
 
 ####################################################
+# Immutable globals
+# _* -> templates
+####################################################
+
+readonly regex_FloatRange='([\-]?[0-9\.]+),to,([\-]?[0-9\.]+)'
+readonly regex_IntegerRange='([\-]?[0-9]+),to,([\-]?[0-9]+)'
+readonly _f_header='#!/bin/bash
+# Bash completion file for the mpv media player
+
+_mpv(){
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[COMP_CWORD-1]}
+  
+  compopt +o default +o filenames
+  
+  if [[ -n $prev ]] ; then
+    case "$prev" in'
+readonly _f_footer='    esac
+  fi
+  
+  if [[ $cur =~ ^- ]] ; then
+    COMPREPLY=($(compgen -W "%s" -- "$cur"))
+    return
+  fi
+  
+  compopt -o filenames -o default
+  COMPREPLY=($(compgen -- "$cur"))
+}
+complete -o nospace -F _mpv mpv'
+readonly _case='
+      %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
+
+####################################################
+# Mutable globals
+####################################################
+
+declare _allkeys=""
+declare -a _prev_cases=()
+
+####################################################
+# Functions
+####################################################
+
+ensure_float_suffix(){
+  if [[ ! $1 =~ \. ]] ; then
+    echo "${1}.0"
+  else
+    echo "$1"
+  fi
+  return 0
+}
+
+####################################################
+# Process options and check deps
+####################################################
 
 while getopts ":h" opt ; do
   case "$opt" in
@@ -48,61 +103,9 @@ for dep in mpv sed grep tail cut ; do
 done
 
 ####################################################
-
-# File header template. Takes no arguments.
-readonly _f_header='#!/bin/bash
-# Bash completion file for the mpv media player
-
-_mpv(){
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  local prev=${COMP_WORDS[COMP_CWORD-1]}
-  
-  compopt +o default +o filenames
-  
-  if [[ -n $prev ]] ; then
-    case "$prev" in'
-
-# File footer template. Takes 1 argument: List of all --options.
-readonly _f_footer='    esac
-  fi
-  
-  if [[ $cur =~ ^- ]] ; then
-    COMPREPLY=($(compgen -W "%s" -- "$cur"))
-    return
-  fi
-  
-  compopt -o filenames -o default
-  COMPREPLY=($(compgen -- "$cur"))
-}
-complete -o nospace -F _mpv mpv'
-
-# Template for --option argument case handling. Takes 2 arguments:
-# --option to complete and argument list.
-readonly _case='
-      %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
-
+# main()
 ####################################################
 
-declare _allkeys=""
-declare -a _prev_cases=()
-
-####################################################
-
-ensure_float_suffix(){
-  if [[ ! $1 =~ \. ]] ; then
-    echo "${1}.0"
-  else
-    echo "$1"
-  fi
-  return 0
-}
-
-####################################################
-
-
-# Extract possible --options and for options that take a fixed
-# list of options as well as flag-type options taking either 'yes' or 'no',
-# extract the argument lists
 for line in $(mpv --list-options \
   | grep -- -- \
   | sed 's/^\s*//;s/\s\+/,/g;s/,(default.*$//g') ; do
@@ -142,14 +145,14 @@ for line in $(mpv --list-options \
         "$(printf "$_case" "$key" "yes no")")
       ;;
     Integer)
-      if [[ $val =~ ([\-]?[0-9]+),to,([\-]?[0-9]+) ]] ; then
+      if [[ $val =~ $regex_IntegerRange ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
           "$(printf "$_case" "$key" \
             "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
       fi
       ;;
     Float)
-      if [[ $val =~ ([\-]?[0-9\.]+),to,([\-]?[0-9\.]+) ]] ; then
+      if [[ $val =~ $regex_FloatRange ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
           "$(printf "$_case" "$key" \
             "$(ensure_float_suffix ${BASH_REMATCH[1]}) $(ensure_float_suffix ${BASH_REMATCH[2]})")")
@@ -159,9 +162,11 @@ for line in $(mpv --list-options \
 done
 
 ####################################################
+# Output
+####################################################
 
-# Inject data into templates and print to stdout
 printf "$_f_header"
 echo "${_prev_cases[@]}"
 printf "$_f_footer" "$_allkeys"
 
+exit 0
