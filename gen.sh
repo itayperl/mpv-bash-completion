@@ -25,9 +25,9 @@ set -f
 # _* -> templates
 ####################################################
 
-readonly regex_FloatRange='([\-]?[0-9\.]+),to,([\-]?[0-9\.]+)'
-readonly regex_IntegerRange='([\-]?[0-9]+),to,([\-]?[0-9]+)'
-readonly _f_header='#!/bin/bash
+readonly regex_float_range='([\-]?[0-9\.]+),to,([\-]?[0-9\.]+)'
+readonly regex_integer_range='([\-]?[0-9]+),to,([\-]?[0-9]+)'
+readonly template_header='#!/bin/bash
 # Bash completion file for the mpv media player
 
 _mpv(){
@@ -38,7 +38,7 @@ _mpv(){
   
   if [[ -n $prev ]] ; then
     case "$prev" in'
-readonly _f_footer='    esac
+readonly template_footer='    esac
   fi
   
   if [[ $cur =~ ^- ]] ; then
@@ -50,7 +50,7 @@ readonly _f_footer='    esac
   COMPREPLY=($(compgen -- "$cur"))
 }
 complete -o nospace -F _mpv mpv'
-readonly _case='
+readonly template_case='
       %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 
 ####################################################
@@ -122,7 +122,7 @@ for line in $(mpv --list-options \
       tail=${tail%%,(*}
       tail=${tail//,/ }
       _prev_cases=("${_prev_cases[@]}" \
-        "$(printf "$_case" "$key" "$tail")")
+        "$(printf "$template_case" "$key" "$tail")")
       ;;
     Object)
       tail=""
@@ -138,23 +138,23 @@ for line in $(mpv --list-options \
         fi
       done
       _prev_cases=("${_prev_cases[@]}" \
-        "$(printf "$_case" "$key" "$tail")")
+        "$(printf "$template_case" "$key" "$tail")")
       ;;
     Flag)
       _prev_cases=("${_prev_cases[@]}" \
-        "$(printf "$_case" "$key" "yes no")")
+        "$(printf "$template_case" "$key" "yes no")")
       ;;
     Integer)
-      if [[ $val =~ $regex_IntegerRange ]] ; then
+      if [[ $val =~ $regex_integer_range ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
-          "$(printf "$_case" "$key" \
+          "$(printf "$template_case" "$key" \
             "${BASH_REMATCH[1]} ${BASH_REMATCH[2]}")")
       fi
       ;;
     Float)
-      if [[ $val =~ $regex_FloatRange ]] ; then
+      if [[ $val =~ $regex_float_range ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
-          "$(printf "$_case" "$key" \
+          "$(printf "$template_case" "$key" \
             "$(ensure_float_suffix ${BASH_REMATCH[1]}) $(ensure_float_suffix ${BASH_REMATCH[2]})")")
       fi
       ;;
@@ -165,8 +165,8 @@ done
 # Output
 ####################################################
 
-printf "$_f_header"
+printf "$template_header"
 echo "${_prev_cases[@]}"
-printf "$_f_footer" "$_allkeys"
+printf "$template_footer" "$_allkeys"
 
 exit 0
