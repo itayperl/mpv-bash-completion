@@ -1,16 +1,21 @@
 ## mpv-bash-completion
 
-This repository provides a script for generating a Bash completion
-script for the popular [mpv video player](https://github.com/mpv-player/mpv).
-It provides option, option argument and file name completion.
+A script for generating a Bash completion script for the popular [mpv
+video player](https://github.com/mpv-player/mpv).
+It features...
+
+* Completion for all --options,
+* Type-based completion for --option arguments for choices, flags,
+  integers and floats,
+* Completion for upper/lower bounds for integer- and float-type --option
+  arguments where applicable,
+* Regular file name completion.
 
 It does so by parsing the output of
 ```
 mpv --list-options
 ```
-directly and should thus work against most newer versions of mpv,
-however it still will break even in the case of minor changes. Mind the
-bug.
+directly and should thus work against most versions of mpv.
 
 Included is support for generating a Debian package.
 
@@ -18,6 +23,11 @@ Included is support for generating a Debian package.
 
 Scripts for certain mpv versions and corresponding Debian packages are
 available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
+
+Please note that mpv is adding, removing or changing the options of its
+command line interface quite frequently. For any new version of mpv
+you're running, I recommend you rebuild the completion script to ensure
+that it's still accurate.
 
 ### Dependencies
 
