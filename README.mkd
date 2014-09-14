@@ -1,3 +1,5 @@
+_(The primary source is hosted on [Github](https://github.com/2ion/mpv-bash-completion), the downloads are on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads))_
+
 ## mpv-bash-completion
 
 A script for generating a Bash completion script for the popular [mpv
