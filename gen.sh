@@ -33,23 +33,33 @@ readonly template_header='#!/bin/bash
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
+  COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
+  compopt +o default +o filenames'
+
+readonly template_body_flag_cases_open='
+  if [[ -n $cur ]] ; then
+    case "$cur" in'
+readonly template_body_flag_cases_close='
+    esac
+  fi'
   
-  compopt +o default +o filenames
-  
+readonly template_body_prev_cases_open='
   if [[ -n $prev ]] ; then
     case "$prev" in'
-readonly template_footer='    esac
-  fi
-  
+readonly template_body_prev_cases_close='
+    esac
+  fi'
+
+readonly template_footer='
   if [[ $cur =~ ^- ]] ; then
     COMPREPLY=($(compgen -W "%s" -- "$cur"))
     return
   fi
-  
   compopt -o filenames -o default
   COMPREPLY=($(compgen -- "$cur"))
 }
 complete -o nospace -F _mpv mpv'
+
 readonly template_case='
       %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 
@@ -59,6 +69,7 @@ readonly template_case='
 
 declare _allkeys=""
 declare -a _prev_cases=()
+declare -a _cur_flag_cases=()
 
 ####################################################
 # Functions
@@ -113,11 +124,11 @@ for line in $(mpv --list-options \
   if [[ $key =~ \* ]] ; then
     key=${key%%\*}
   fi
-  _allkeys="$_allkeys $key"
   val=${line#*,}
   type=${val%%,*}
   case "$type" in
     Choices*)
+      _allkeys="$_allkeys $key"
       tail=${val#*,}
       tail=${tail%%,(*}
       tail=${tail//,/ }
@@ -125,6 +136,7 @@ for line in $(mpv --list-options \
         "$(printf "$template_case" "$key" "$tail")")
       ;;
     Object)
+      _allkeys="$_allkeys $key"
       tail=""
       for subline in $(mpv "$key" help \
         | tail -n+2 \
@@ -141,10 +153,12 @@ for line in $(mpv --list-options \
         "$(printf "$template_case" "$key" "$tail")")
       ;;
     Flag)
-      _prev_cases=("${_prev_cases[@]}" \
-        "$(printf "$template_case" "$key" "yes no")")
+      _allkeys="$_allkeys ${key}="
+      _cur_flag_cases=("${_cur_flag_cases[@]}" \
+        "$(printf "$template_case" "${key}=*" "${key}=yes ${key}=no")")
       ;;
     Integer)
+      _allkeys="$_allkeys $key"
       if [[ $val =~ $regex_integer_range ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
           "$(printf "$template_case" "$key" \
@@ -152,6 +166,7 @@ for line in $(mpv --list-options \
       fi
       ;;
     Float)
+      _allkeys="$_allkeys $key"
       if [[ $val =~ $regex_float_range ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
           "$(printf "$template_case" "$key" \
@@ -166,7 +181,16 @@ done
 ####################################################
 
 printf "$template_header"
-echo "${_prev_cases[@]}"
+
+echo -n "${template_body_flag_cases_open}"
+echo -n "${_cur_flag_cases[@]}"
+echo -n "${template_body_flag_cases_close}"
+
+echo -n "${template_body_prev_cases_open}"
+echo -n "${_prev_cases[@]}"
+echo -n "${template_body_prev_cases_close}"
+
+
 printf "$template_footer" "$_allkeys"
 
 exit 0
