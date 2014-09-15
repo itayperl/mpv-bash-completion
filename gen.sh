@@ -124,6 +124,9 @@ for line in $(mpv --list-options \
   val=${line#*,}
   type=${val%%,*}
   case "$type" in
+    Print)
+      _allkeys="$_allkeys $key"
+      ;;
     Choices*)
       _allkeys="$_allkeys $key"
       tail=${val#*,}
@@ -150,7 +153,7 @@ for line in $(mpv --list-options \
         "$(printf "$template_case" "$key" "$tail")")
       ;;
     Flag)
-      if [[ $key =~ nocfg ]] ; then
+      if [[ $line =~ \[nocfg\] ]] ; then
         _allkeys="$_allkeys $key"
       else
         _allkeys="$_allkeys ${key}="
