@@ -150,9 +150,13 @@ for line in $(mpv --list-options \
         "$(printf "$template_case" "$key" "$tail")")
       ;;
     Flag)
-      _allkeys="$_allkeys ${key}="
-      _cur_flag_cases=("${_cur_flag_cases[@]}" \
-        "$(printf "$template_case" "${key}=*" "${key}=yes ${key}=no")")
+      if [[ $key =~ [{}] ]] ; then
+        _allkeys="$_allkeys $key"
+      else
+        _allkeys="$_allkeys ${key}="
+        _cur_flag_cases=("${_cur_flag_cases[@]}" \
+          "$(printf "$template_case" "${key}=*" "${key}=yes ${key}=no")")
+      fi
       ;;
     Integer)
       _allkeys="$_allkeys $key"
