@@ -161,8 +161,9 @@ for line in $(mpv --list-options \
           "$(printf "$template_case" "${key}=*" "${key}=yes ${key}=no")")
       fi
       ;;
-    Integer)
+    Integer|Audio)
       _allkeys="$_allkeys $key"
+      val=${val/any/99}
       if [[ $val =~ $regex_integer_range ]] ; then
         _prev_cases=("${_prev_cases[@]}" \
           "$(printf "$template_case" "$key" \
