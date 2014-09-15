@@ -28,6 +28,8 @@ set -f
 readonly regex_float_range='([\-]?[0-9\.]+),to,([\-]?[0-9\.]+)'
 readonly regex_integer_range='([\-]?[0-9]+),to,([\-]?[0-9]+)'
 readonly template_header='#!/bin/bash
+# mpv(1) completion
+
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
