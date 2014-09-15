@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# gen.sh - mpv Bash completion script generator - This is a hack. Oh noes!
+# gen.sh - mpv Bash completion script generator
 # Copyright (C) 2014 Jens Oliver John <dev at 2ion dot de>
 # 
 # This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,6 @@ set -f
 readonly regex_float_range='([\-]?[0-9\.]+),to,([\-]?[0-9\.]+)'
 readonly regex_integer_range='([\-]?[0-9]+),to,([\-]?[0-9]+)'
 readonly template_header='#!/bin/bash
-# Bash completion file for the mpv media player
-
 _mpv(){
   local cur=${COMP_WORDS[COMP_CWORD]}
   local prev=${COMP_WORDS[COMP_CWORD-1]}
@@ -42,14 +40,12 @@ readonly template_body_flag_cases_open='
 readonly template_body_flag_cases_close='
     esac
   fi'
-  
 readonly template_body_prev_cases_open='
   if [[ -n $prev ]] ; then
     case "$prev" in'
 readonly template_body_prev_cases_close='
     esac
   fi'
-
 readonly template_footer='
   if [[ $cur =~ ^- ]] ; then
     COMPREPLY=($(compgen -W "%s" -- "$cur"))
@@ -59,7 +55,6 @@ readonly template_footer='
   COMPREPLY=($(compgen -- "$cur"))
 }
 complete -o nospace -F _mpv mpv'
-
 readonly template_case='
       %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
 

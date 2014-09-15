@@ -7,7 +7,10 @@ all: $(MYCOMP)
 $(MYCOMP): gen.sh
 	./$< > $@
 	@echo -n "Checking the syntax of the generated file ... "
-	@bash -n $@ && echo OK || ERROR
+	@bash -n $@ && echo OK || echo ERROR
+
+dist: $(MYCOMP)
+	@xz $<
 
 .PHONY:deb
 deb: $(MYCOMP)
