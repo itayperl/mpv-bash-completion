@@ -124,7 +124,7 @@ for line in $(mpv --list-options \
   val=${line#*,}
   type=${val%%,*}
   case "$type" in
-    Print)
+    Print|String*)
       _allkeys="$_allkeys $key"
       ;;
     Choices*)
