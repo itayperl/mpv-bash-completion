@@ -181,6 +181,14 @@ for line in $(mpv --list-options \
   esac
 done
 
+{
+echo "--------------------------------------------@"
+echo "Completions dependent on the preceeding word@${#_prev_cases[@]}"
+echo "Completions dependent on the current word@${#_cur_flag_cases[@]}"
+echo "Total completions@$(echo $_allkeys | tr ' ' '\n' | wc -l)"
+echo "--------------------------------------------@"
+} | column -s@ -t >&2
+
 ####################################################
 # Output
 ####################################################
