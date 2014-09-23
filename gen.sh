@@ -58,7 +58,7 @@ readonly template_footer='
 }
 complete -o nospace -F _mpv mpv
 if [[ -n $BASH_VERSINFO && $BASH_VERSINFO -eq 3 ]] ; then
-  echo "[$0] WARNING: This script is not compatibe with Bash 3.x!">&2
+  echo "[$0] WARNING: This script is not compatible with Bash 3.x!">&2
 fi'
 readonly template_case='
       %s) COMPREPLY=($(compgen -W "%s" -- "$cur")) ; return ;;'
