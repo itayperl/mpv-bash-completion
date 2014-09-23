@@ -103,7 +103,7 @@ Options:
   esac
 done
 
-for dep in mpv sed grep tail cut ; do
+for dep in mpv sed grep tail cut tr ; do
   if ! type "$dep" &>/dev/null ; then
     echo "Error: required command $dep not found in PATH. Abort." >&2
     exit 1
