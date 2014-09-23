@@ -17,19 +17,9 @@ It does so by parsing the output of
 ```
 mpv --list-options
 ```
-directly and should thus work against most versions of mpv.
+directly and should thus work against all recent versions of mpv.
 
 Included is support for generating a Debian package.
-
-### Out-of-Tree downloads
-
-Scripts for certain mpv versions and corresponding Debian packages are
-available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
-
-Please note that mpv is adding, removing or changing the options of its
-command line interface quite frequently. For any new version of mpv
-you're running, I recommend you rebuild the completion script to ensure
-that it's still accurate.
 
 ### Dependencies
 
@@ -41,6 +31,13 @@ that it's still accurate.
 For generating the Debian package:
 
 * checkinstall
+
+For actually using the completion:
+
+* Bash 4
+
+This is a no-brainer for Linux users, but OSX users will need to upgrade
+their ancient Bash 3 that is shipping with the OS!
 
 ### Generating the completion script
 
@@ -71,6 +68,16 @@ the current working directory. To remove it later, run
 ```sh
 sudo dpkg -r mpv-bash-completion
 ```
+
+### Out-of-Tree downloads
+
+Scripts for certain mpv versions and corresponding Debian packages are
+available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
+
+Please note that mpv is adding, removing or changing the options of its
+command line interface quite frequently. For any new version of mpv
+you're running, I recommend you rebuild the completion script to ensure
+that it's still accurate.
 
 ### License
 
