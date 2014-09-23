@@ -124,9 +124,6 @@ for line in $(mpv --list-options \
   val=${line#*,}
   type=${val%%,*}
   case "$type" in
-    Print|String*)
-      _allkeys="$_allkeys $key"
-      ;;
     Choices*)
       _allkeys="$_allkeys $key"
       tail=${val#*,}
@@ -178,6 +175,9 @@ for line in $(mpv --list-options \
             "$(ensure_float_suffix ${BASH_REMATCH[1]}) $(ensure_float_suffix ${BASH_REMATCH[2]})")")
       fi
       ;;
+    *)
+      _allkeys="$_allkeys $key"
+      ;;
   esac
 done
 
@@ -186,6 +186,7 @@ echo "--------------------------------------------@"
 echo "Completions dependent on the preceeding word@${#_prev_cases[@]}"
 echo "Completions dependent on the current word@${#_cur_flag_cases[@]}"
 echo "Total completions@$(echo $_allkeys | tr ' ' '\n' | wc -l)"
+echo "Total mpv options@$(mpv --list-options | grep '^ --' | wc -l)"
 echo "--------------------------------------------@"
 } | column -s@ -t >&2
 
