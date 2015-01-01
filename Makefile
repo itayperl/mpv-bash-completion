@@ -1,4 +1,5 @@
 VERSION = 0.15
+PKGRELEASE = 2
 INFIX = $(shell mpv --version | head -n1 | cut -d' ' -f2)
 MYCOMP = mpv_$(INFIX)-completion_$(VERSION).sh
 
@@ -22,7 +23,7 @@ deb: $(MYCOMP)
 		-A all \
 		--pkgsource "https://github.com/2ion/mpv-bash-completion" \
 		--pkglicense GPL-3 \
-		--pkgrelease 1 \
+		--pkgrelease $(PKGRELEASE) \
 		--nodoc \
 		--install \
 	 	make -f Makefile.checkinstall install 
