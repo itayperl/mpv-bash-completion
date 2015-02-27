@@ -1,3 +1,4 @@
+SHELL = /bin/bash
 VERSION = 0.15
 PKGRELEASE = 2
 INFIX = $(shell mpv --version | head -n1 | cut -d' ' -f2)
@@ -9,6 +10,9 @@ $(MYCOMP): gen.sh
 	./$< > $@
 	@echo -n "Checking the syntax of the generated file ... "
 	@bash -n $@ && echo OK || echo ERROR
+	@[[ -e current.sh ]] && rm current.sh || true
+	@ln -s $@ current.sh
+
 
 dist: $(MYCOMP)
 	@xz $<
