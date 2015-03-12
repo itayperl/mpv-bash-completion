@@ -53,7 +53,7 @@ and you should now have completion for the mpv command.
 
 ### Building a Debian package
 
-Instructions are included in the <code>debian</code> branch's README.
+Instructions are included in the __debian__ branch's README.
 
 ```sh
 git checkout debian
@@ -63,7 +63,7 @@ and continue reading.
 
 ### Building an Arch Linux package
 
-Instructions are included in the <code>arch</code> branch's README.
+Instructions are included in the __arch__ branch's README.
 
 ```
 git checkout arch
