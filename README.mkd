@@ -1,6 +1,6 @@
 _(The primary source is hosted on [Github](https://github.com/2ion/mpv-bash-completion), the downloads are on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads))_
 
-## mpv-bash-completion
+# mpv-bash-completion
 
 A script for generating a Bash completion script for the popular [mpv
 video player](https://github.com/mpv-player/mpv).
@@ -21,7 +21,7 @@ directly and should thus work against all recent versions of mpv.
 
 Included is support for generating a Debian package.
 
-### Dependencies
+## Dependencies
 
 * mpv (must be in $PATH)
 * grep
@@ -36,27 +36,7 @@ For actually using the completion:
 
 * Bash 4
 
-This is a no-brainer for Linux users, but OSX users will need to upgrade
-their ancient Bash 3 that is shipping with the OS!
-
-### Generating the completion script
-
-Running
-```sh
-make
-```
-will produce a shell script in the current working directory.
-Source it in your .bashrc or similar like this:
-```sh
-source /bath/to/the/script
-```
-re-source your .bashrc:
-```sh
-source $HOME/.bashrc
-```
-and you should now have completion for the mpv command.
-
-### Generating the Debian package
+## Generating the Debian package
 
 Run
 ```sh
@@ -69,7 +49,7 @@ the current working directory. To remove it later, run
 sudo dpkg -r mpv-bash-completion
 ```
 
-### Out-of-Tree downloads
+## Out-of-Tree downloads
 
 Scripts for certain mpv versions and corresponding Debian packages are
 available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
@@ -79,7 +59,7 @@ command line interface quite frequently. For any new version of mpv
 you're running, I recommend you rebuild the completion script to ensure
 that it's still accurate.
 
-### License
+## License
 
 ```
 gen.sh - mpv Bash completion script generator - This is a hack. Oh noes!
