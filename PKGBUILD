@@ -1,12 +1,12 @@
 # Maintainer: Jens John <dev@2ion.de>
 pkgname=mpv-bash-completion-git
 pkgver=0.8.2.r78.c1fcca5
-pkgrel=1
+pkgrel=2
 pkgdesc="Bash completion for the mpv video player"
 arch=('any')
 url="https://github.com/2ion/mpv-bash-completion"
 license=('GPL')
-depends=('mpv' 'bash')
+depends=('mpv' 'bash-completion')
 makedepends=('git' 'mpv' 'bash' 'coreutils' 'package-query' 'grep')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
