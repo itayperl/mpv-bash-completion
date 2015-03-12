@@ -1,0 +1,6 @@
+The package is available in the AUR as [mpv-bash-completion-git](https://aur.archlinux.org/packages/mpv-bash-completion-git/)
+and may be built using the [ABS](https://wiki.archlinux.org/index.php/Arch_Build_System) or helper tools
+such as [yaourt](https://wiki.archlinux.org/index.php/yaourt).
+
+Pre-built packages are available for download on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
+
