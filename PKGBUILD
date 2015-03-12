@@ -10,7 +10,7 @@ depends=('mpv' 'bash')
 makedepends=('git' 'mpv' 'bash' 'coreutils')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
-source=('git+https://github.com/2ion/mpv-bash-completion.git#branch=arch')
+source=('git+https://github.com/2ion/mpv-bash-completion.git#branch=master')
 md5sums=('SKIP')
 _completioncommand=mpv
 
