@@ -5,7 +5,7 @@ MYCOMP = mpv_$(INFIX)-completion_$(VERSION).sh
 
 all: $(MYCOMP)
 
-$(MYCOMP): gen.sh
+$(MYCOMP): gen.sh $(shell which mpv)
 	./$< > $@
 	@echo -n "Checking the syntax of the generated file ... "
 	@bash -n $@ && echo OK || echo ERROR
@@ -28,3 +28,6 @@ deb: $(MYCOMP)
 		--install \
 	 	make -f Makefile.checkinstall install 
 		rm -f ./mpv
+
+clean:
+	rm -f ./*.deb *.tgz
