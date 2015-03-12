@@ -7,7 +7,7 @@ arch=('any')
 url="https://github.com/2ion/mpv-bash-completion"
 license=('GPL')
 depends=('mpv' 'bash')
-makedepends=('git' 'mpv' 'bash' 'coreutils')
+makedepends=('git' 'mpv' 'bash' 'coreutils' 'package-query' 'grep')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 source=('git+https://github.com/2ion/mpv-bash-completion.git#branch=master')
