@@ -1,6 +1,4 @@
-_(The primary source is hosted on [Github](https://github.com/2ion/mpv-bash-completion), the downloads are on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads))_
-
-## mpv-bash-completion
+# mpv-bash-completion
 
 A script for generating a Bash completion script for the popular [mpv
 video player](https://github.com/mpv-player/mpv).
@@ -21,29 +19,26 @@ directly and should thus work against all recent versions of mpv.
 
 Included is support for generating a Debian package.
 
-### Dependencies
-
-* mpv (must be in $PATH)
-* grep
-* GNU core utilities
-* make
-
-For generating the Debian package:
-
-* checkinstall
-
-For actually using the completion:
+## Dependencies
 
 * Bash 4
+* GNU core utilities
+* grep
+* make
+* mpv (must be in $PATH)
 
-This is a no-brainer for Linux users, but OSX users will need to upgrade
-their ancient Bash 3 that is shipping with the OS!
+## Generating the completion script
 
-### Generating the completion script
+You can simply run the generation script in order to obtain a completion
+file. For Debian and Arch Linux, you can build a package which installs
+everything into the right places. Readily built Debian and Arch Linux
+packages are also provided.
+
+### Generic method
 
 Running
 ```sh
-make
+./gen.sh > mpv
 ```
 will produce a shell script in the current working directory.
 Source it in your .bashrc or similar like this:
@@ -56,30 +51,27 @@ source $HOME/.bashrc
 ```
 and you should now have completion for the mpv command.
 
-### Generating the Debian package
+### Building a Debian package
 
-Run
+Instructions are included in the <code>debian</code> branch's README.
+
 ```sh
-make deb
-```
-and answer to any prompts accordingly. You will also be prompted for the
-sudo password. The Debian package will get installed and also saved to
-the current working directory. To remove it later, run
-```sh
-sudo dpkg -r mpv-bash-completion
+git checkout debian
 ```
 
-### Out-of-Tree downloads
+and continue reading.
 
-Scripts for certain mpv versions and corresponding Debian packages are
-available on [Bitbucket](https://bitbucket.org/2ion/mpv-bash-completion/downloads).
+### Building an Arch Linux package
 
-Please note that mpv is adding, removing or changing the options of its
-command line interface quite frequently. For any new version of mpv
-you're running, I recommend you rebuild the completion script to ensure
-that it's still accurate.
+Instructions are included in the <code>arch</code> branch's README.
 
-### License
+```
+git checkout arch
+```
+
+and continue reading.
+
+## License
 
 ```
 gen.sh - mpv Bash completion script generator - This is a hack. Oh noes!
