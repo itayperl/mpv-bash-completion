@@ -85,7 +85,7 @@ ensure_float_suffix(){
 }
 
 ####################################################
-# Process options and check deps
+# Process options
 ####################################################
 
 while getopts ":h" opt ; do
