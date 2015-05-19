@@ -17,7 +17,8 @@ mpv --list-options
 ```
 directly and should thus work against all recent versions of mpv.
 
-Included is support for generating a Debian package.
+Included is support for generating Arch (PKGBUILD) and Debian
+(checkinstall) packages.
 
 ## Dependencies
 
