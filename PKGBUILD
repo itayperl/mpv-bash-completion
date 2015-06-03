@@ -33,4 +33,5 @@ check() {
 package() {
   cd "$srcdir/${pkgname%-git}"
   install -Dm644 "${_completioncommand}" "${pkgdir}/etc/bash_completion.d/${_completioncommand}"
+  install -Dm644 BUGS "${pkgdir}/usr/share/doc/${pkgname%-git}/KNOWN_BUGS.txt"
 }
